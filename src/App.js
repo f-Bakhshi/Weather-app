@@ -4,13 +4,13 @@ import Inputs from './components/Input';
 import TimeAndLocation from './components/TimeAndLocation';
 import Details from './components/Details';
 import ForCast from './components/ForCast';
-import getWeatherData from './services/weatherServices';
+import getFormattedWeatherData from './services/weatherServices';
 
 // import UimReact from '@iconscout/react-unicons-monochrome/icons/uim-react'
 
 function App() {
   const fetchWeather = async()=>{
-     const data = await getWeatherData('weather', {q: 'herat'});
+     const data = await getFormattedWeatherData( {q: 'herat'});
      console.log(data)
   }
 

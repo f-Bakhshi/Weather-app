@@ -1,14 +1,34 @@
-const API_Key = '8c45d32d5a829f540e3f0e7e55ced7ce'
- const Base_URL = 'https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}'
+
+const API_Key = '753e93f09f553f4c40e54e170998a5c8'
+ const Base_URL = 'https://api.openweathermap.org/data/2.5'
  
  const getWeatherData = (infoType, searchParams)=>{
     const url = new URL (Base_URL + "/" + infoType)
     url.search = new URLSearchParams({...searchParams, appid: API_Key})
 
-    console.log(url)
     return fetch(url)
     .then((res)=> res.json())
     .then((data)=> data)
  }
- 
- export default getWeatherData;
+ const formatCurrentWeather =(data)=>{
+   const {
+      coord:{lat, lon},
+      main:{temp,feels_like,temp_min, temp_max, humidity},
+      name,
+      dt,
+      sys:{country, sunrise, sunset},
+      weather,
+      wind:{speed}
+   }=data
+
+   const {main: details , icon} =weather[0]
+
+   return {lat, lon,temp, feels_like, temp_min, temp_max, humidity, name, dt, country, sunrise, sunset, details,icon, speed}
+ }
+ const getFormattedWeatherData =async (searchParams)=>{
+   const formattedCurrentWeather = await getWeatherData('weather', searchParams)
+   .then(formatCurrentWeather)
+   return formattedCurrentWeather
+
+ }
+ export default getFormattedWeatherData;
